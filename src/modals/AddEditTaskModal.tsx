@@ -43,11 +43,11 @@ const AddEditTaskModal = ({ type, setOpenAddEditTask, taskIndex, setIsTaskModalO
 
     const validate = () => {
         setIsValid(false)
-        if(!title.trim()){
+        if (!title.trim()) {
             return false
         }
-        for (let i = 0; i < subtasks.length; i++){
-            if (!subtasks[i].title.trim()){
+        for (let i = 0; i < subtasks.length; i++) {
+            if (!subtasks[i].title.trim()) {
                 return false
             }
         }
@@ -57,7 +57,7 @@ const AddEditTaskModal = ({ type, setOpenAddEditTask, taskIndex, setIsTaskModalO
     }
 
     const onSubmit = (type) => {
-        if(type === 'add'){
+        if (type === 'add') {
             dispatch(boardsSlice.actions.addTask({
                 title,
                 description,
@@ -65,7 +65,9 @@ const AddEditTaskModal = ({ type, setOpenAddEditTask, taskIndex, setIsTaskModalO
                 status,
                 newColIndex
             }))
-        }else{
+            setOpenAddEditTask(false)
+            setIsTaskModalOpen(false)
+        } else {
             dispatch(
                 boardsSlice.actions.editTask({
                     title,
@@ -77,13 +79,15 @@ const AddEditTaskModal = ({ type, setOpenAddEditTask, taskIndex, setIsTaskModalO
                     newColIndex
                 })
             )
+            setOpenAddEditTask(false)
+            setIsTaskModalOpen(false)
         }
-        
+
     }
 
     const onChangeStatus = (e) => {
         setStatus(e.target.value)
-        setNewColIndex(e.target.selectedIndex)   
+        setNewColIndex(e.target.selectedIndex)
     }
 
     return (
@@ -93,9 +97,10 @@ const AddEditTaskModal = ({ type, setOpenAddEditTask, taskIndex, setIsTaskModalO
                     return
                 }
                 setOpenAddEditTask(false)
+                setIsTaskModalOpen(false)
             }}
             className=
-            ' py-6 px-6 pb-40 absolute overflow-y-scroll left-0 flex right-0 bottom-[-100vh] top-0 bg-[#00000080]'
+            ' py-6 px-6 absolute overflow-y-scroll left-0 flex right-0 bottom-[-100vh] top-0 bg-[#00000080]'
         >
             <div className=' scrollbar-hide overflow-y-scroll max-h-[95vh] my-auto bg-white dark:bg-[#2b2c37] text-black dark:text-white font-bold shadow-md shadow-[#364e7e1a] max-w-md mx-auto w-full px-8 py-8 rounded-xl'>
                 <h1 className=' text-lg'>
@@ -123,25 +128,25 @@ const AddEditTaskModal = ({ type, setOpenAddEditTask, taskIndex, setIsTaskModalO
                                 <input onChange={
                                     (e) => {
                                         onChange(subtask.id, e.target.value)
-                                    }} type="text" value={subtask.title} className=' bg-transparent border outline-none focus:border-0 flex-grow px-4 py-2 rounded-md text-sm border-gray-600 focus:outline-[#635fc7] dark:border-gray-600' placeholder=' e.g Take a coffee break'/>
+                                    }} type="text" value={subtask.title} className=' bg-transparent border outline-none focus:border-0 flex-grow px-4 py-2 rounded-md text-sm border-gray-600 focus:outline-[#635fc7] dark:border-gray-600' placeholder=' e.g Take a coffee break' />
                                 <button onClick={() => {
                                     onDelete(subtask.id)
-                                }}><DeleteOutlineOutlinedIcon className=' m-4 text-gray-600 cursor-pointer'/></button>
-                                
+                                }}><DeleteOutlineOutlinedIcon className=' m-4 text-gray-600 cursor-pointer' /></button>
+
                             </div>
                         ))
                     }
 
 
 
-                    <button 
-                    onClick={() => {
-                        setSubtasks((state) => [
-                            ...state,
-                            { title: '', isCompleted: false, id: uuidv4() },
-                        ])
-                    }}
-                    className=' w-full items-center dark:text-[#635fc7] dark:bg-white text-white bg-[#635fc7] py-2 rounded-full hover:opacity-75 duration-300'>
+                    <button
+                        onClick={() => {
+                            setSubtasks((state) => [
+                                ...state,
+                                { title: '', isCompleted: false, id: uuidv4() },
+                            ])
+                        }}
+                        className=' w-full items-center dark:text-[#635fc7] dark:bg-white text-white bg-[#635fc7] py-2 rounded-full hover:opacity-75 duration-300'>
                         + Add new substack
                     </button>
                 </div>
@@ -161,15 +166,16 @@ const AddEditTaskModal = ({ type, setOpenAddEditTask, taskIndex, setIsTaskModalO
                     </select>
 
                     <button className=' w-full items-center text-white bg-[#635fc7] py-2 rounded-full'
-                    onClick={() => {
-                        const isValid = validate()
-                        if(isValid){
-                            onSubmit(type)
-                            setOpenAddEditTask(false)
-                        }else{
-                            alert('Fill all feilds, delete empty feild if possible')
-                        }
-                    }}>
+                        onClick={() => {
+                            const isValid = validate()
+                            if (isValid) {
+                                onSubmit(type)
+                                setOpenAddEditTask(false)
+                                setIsTaskModalOpen(false)
+                            } else {
+                                alert('Fill all feilds, delete empty feild if possible')
+                            }
+                        }}>
                         {type == 'edit' ? 'Edit Task' : 'Create Task'}
                     </button>
                 </div>

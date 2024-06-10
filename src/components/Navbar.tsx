@@ -12,19 +12,20 @@ import DeleteModal from '../modals/DeleteModal';
 import boardsSlice from '../redux/BoardsSlice';
 
 
-const Navbar = ({boardModalOpen, setBoardModalOpen}) => {
+const Navbar = ({boardModalOpen, setBoardModalOpen, isBoardModalOpen}) => {
     const dispatch = useDispatch()
     const boards = useSelector((state) => state.boards)
     const board = boards.find(board => board.isActive)
 
     const [openDropdown, setOpenDropdown] = useState(false)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-    const [boardType, setBoardType] = useState('add')
+    const [boardType, setBoardType] = useState('')
     const [openAddEditTask, setOpenAddEditTask] = useState(false)
     const [isElipsisOpen, setIsElipsisOpen] = useState(false)
+    const [isTheBoardModalOpen, setIsTheBoardModalOpen] = useState(false)
 
     const setOpenEditModal = () => {
-        setBoardModalOpen(true)
+        setIsTheBoardModalOpen(true)
         setBoardType('edit')
         setIsElipsisOpen(false)
     }
@@ -43,7 +44,7 @@ const Navbar = ({boardModalOpen, setBoardModalOpen}) => {
     const onDropdownClick = () => {
         setOpenDropdown(state => !state)
         setIsElipsisOpen(false)
-        setBoardType("add")
+        setBoardType('add')
     }
 
     return (
@@ -96,10 +97,10 @@ const Navbar = ({boardModalOpen, setBoardModalOpen}) => {
             }
 
             {
-                boardModalOpen && <AddEditBoardModal type={boardType} setBoardModalOpen={setBoardModalOpen}/>
+                isTheBoardModalOpen && <AddEditBoardModal setIsTheBoardModalOpen={setIsTheBoardModalOpen} type={boardType} setBoardModalOpen={setBoardModalOpen}/>
             }
             {
-                openAddEditTask && <AddEditTaskModal setOpenAddEditTask={setOpenAddEditTask} type='add'/>
+                openAddEditTask && <AddEditTaskModal  setOpenAddEditTask={setOpenAddEditTask} type='add'/>
             }
             {
                 isDeleteModalOpen && <DeleteModal onDeleteBtnClick={onDeleteBtnClick} setIsDeleteModalOpen={setIsDeleteModalOpen} title={board.name} type='board'/>

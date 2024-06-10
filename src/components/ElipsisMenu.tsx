@@ -8,14 +8,14 @@ const ElipsisMenu = ({ type, setOpenEditModal, setOpenDeleteModal }) => {
              h-auto pr-12'>
                     <p className=' cursor-pointer dark:text-gray-400 text-gray-700'
                         onClick={() => {
-                            setOpenEditModal()
+                            setOpenEditModal(true)
                         }}
                     >
                         Edit {type}
                     </p>
                     <p className=' cursor-pointer text-red-500'
                         onClick={() => {
-                            setOpenDeleteModal()
+                            setOpenDeleteModal(true)
                         }}>
                         Delete {type}
                     </p>

@@ -4,29 +4,18 @@ import { v4 as uuidv4, validate } from 'uuid'
 import boardsSlice from '../redux/BoardsSlice'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
-const AddEditBoardModal = ({ setBoardModalOpen, type }) => {
+const AddEditBoardModal = ({ setBoardModalOpen, type, setIsTheBoardModalOpen }) => {
     const dispatch = useDispatch()
-    const [name, setName] = useState('')
     const [isFirstLoad, setIsFirstLoad] = useState(true)
+    const [name, setName] = useState('')
+    const [newColumns, setNewColumns] = useState([
+        { name: 'Todo', task: [], id: uuidv4() },
+        { name: 'Doing', task: [], id: uuidv4() },
+    ])
     const [isValid, setIsValid] = useState(true)
-    const board = useSelector((state) => state.boards).find((board) => board.isActive)
-
-    const [newColumns, setNewColumns] = useState(
-        [
-            { name: 'Todo', task: [], id: uuidv4() },
-            { name: 'Doing', task: [], id: uuidv4() },
-        ]
+    const board = useSelector((state) => state.boards).find(
+        (board) => board.isActive
     )
-
-    // if(type === 'edit' && isFirstLoad) {
-    //     setNewColumns(
-    //         board.columns.map((col) => {
-    //             return { ...col, id: uuidv4()}
-    //         })
-    //     )
-    //     setName(board.name)
-    //     setIsFirstLoad(false)
-    // }
 
     if (type === 'edit' && isFirstLoad) {
         setNewColumns(
@@ -36,6 +25,20 @@ const AddEditBoardModal = ({ setBoardModalOpen, type }) => {
         );
         setName(board.name)
         setIsFirstLoad(false)
+    }
+
+    const validate = () => {
+        setIsValid(false)
+        if (!name.trim()) {
+            return false
+        }
+        for (let i = 0; i < newColumns.length; i++) {
+            if (!newColumns[i].name.trim()) {
+                return false
+            }
+        }
+        setIsValid(true)
+        return true
     }
 
     const onChange = (id, newValue) => {
@@ -53,34 +56,15 @@ const AddEditBoardModal = ({ setBoardModalOpen, type }) => {
         )
     }
 
-    const validate = () => {
-        setIsValid(false)
-        if (!name.trim()) {
-            return false
-        }
-
-        for (let i = 0; i < newColumns.length; i++) {
-            if (!newColumns[i].name.trim()) {
-                return false
-            }
-        }
-
-        setIsValid(true)
-        return true
-    }
+    
 
     const onSubmit = (type) => {
         setBoardModalOpen(false)
-        if (type === 'edit') {
-            dispatch(boardsSlice.actions.editBoard({name, newColumns}))
-
-        } else {
+        if (type === 'add') {
             dispatch(boardsSlice.actions.addBoard({ name, newColumns }))
-            console.log('new board created')
+        } else {
+            dispatch(boardsSlice.actions.editBoard({ name, newColumns }))
         }
-
-
-
     }
 
 
@@ -90,6 +74,7 @@ const AddEditBoardModal = ({ setBoardModalOpen, type }) => {
                 return
             }
             setBoardModalOpen(false)
+            setIsTheBoardModalOpen(false)
         }} className='fixed right-0 left-0 top-0 bottom-0 px-2 py-4 overflow-scroll z-50 justify-center items-center flex bg-[#00000080] scrollbar-hide'>
             <div className=' scrollbar-hide overflow-y-scroll max-h-[95vh] bg-white dark:bg-[#2b2c37] text-black dark:text-white font-bold shadow-[#364e7e1a] max-w-md mx-auto w-full px-8 py-8 rounded-xl'>
                 <h1 className=' text-lg'>
@@ -123,7 +108,6 @@ const AddEditBoardModal = ({ setBoardModalOpen, type }) => {
                                 }}>
                                     <DeleteOutlineOutlinedIcon />
                                 </div>
-                                {/* <img src={} alt="" /> */}
                             </div>
                         ))
                     }
@@ -146,6 +130,8 @@ const AddEditBoardModal = ({ setBoardModalOpen, type }) => {
                             () => {
                                 const isValid = validate()
                                 if (isValid === true) onSubmit(type)
+                                setBoardModalOpen(false)
+                                setIsTheBoardModalOpen(false)
                             }
                         }>
                         {type === 'add' ? 'Create New Board' : 'Save Changes'}
