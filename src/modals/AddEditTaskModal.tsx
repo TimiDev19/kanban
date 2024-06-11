@@ -10,6 +10,7 @@ const AddEditTaskModal = ({ type, setOpenAddEditTask, taskIndex, setIsTaskModalO
     const [isValid, setIsValid] = useState(true)
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
+    const [isFirstLoad, setIsFirstLoad] = useState(true)
     const dispatch = useDispatch()
 
     const board = useSelector((state) => state.boards).find((board) => board.isActive)
@@ -18,6 +19,7 @@ const AddEditTaskModal = ({ type, setOpenAddEditTask, taskIndex, setIsTaskModalO
     const col = columns.find((col, index) => index === pervColIndex)
     const [status, setStatus] = useState(columns[pervColIndex].name)
     const [newColIndex, setNewColIndex] = useState(pervColIndex)
+    const task = col ? col.tasks.find((task, index) => index === taskIndex) : []
 
     const [subtasks, setSubtasks] = useState(
         [
@@ -31,6 +33,15 @@ const AddEditTaskModal = ({ type, setOpenAddEditTask, taskIndex, setIsTaskModalO
             (perState) => perState.filter((el) => el.id !== id)
         )
     }
+    // if (type === 'edit' && isFirstLoad) {
+    //     setNewColumns(
+    //         board.columns.map((col) => {
+    //             return { ...col, id: uuidv4() };
+    //         })
+    //     );
+    //     setName(task.title)
+    //     setIsFirstLoad(false)
+    // }
 
     const onChange = (id, newValue) => {
         setSubtasks((pervState) => {
@@ -54,6 +65,17 @@ const AddEditTaskModal = ({ type, setOpenAddEditTask, taskIndex, setIsTaskModalO
 
         setIsValid(true)
         return true
+    }
+
+    if (type === 'edit' && isFirstLoad){
+        setSubtasks(
+            task.subtasks.map((subtask) => {
+                return { ...subtask, id: uuidv4()}
+            })
+        )
+        setTitle(task.title)
+        setDescription(task.description)
+        setIsFirstLoad(false)
     }
 
     const onSubmit = (type) => {
