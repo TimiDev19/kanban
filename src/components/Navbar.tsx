@@ -47,6 +47,8 @@ const Navbar = ({boardModalOpen, setBoardModalOpen, isBoardModalOpen}) => {
         setBoardType('add')
     }
 
+    
+
     return (
         <div className=' p-4 fixed left-0 bg-white dark:bg-[#2b2c37] z-50 right-0'>
             <header className=' flex justify-between dark:text-white items-center'>
@@ -81,7 +83,6 @@ const Navbar = ({boardModalOpen, setBoardModalOpen, isBoardModalOpen}) => {
                    }}>
                    <MoreVertIcon className=' cursor-pointer h-6'/>
                    </button>
-
                     {
                         isElipsisOpen && <ElipsisMenu 
                         setOpenDeleteModal={setOpenDeleteModal}
@@ -95,7 +96,6 @@ const Navbar = ({boardModalOpen, setBoardModalOpen, isBoardModalOpen}) => {
             {
                 openDropdown && <HeaderDropdown setBoardModalOpen={setBoardModalOpen} setOpenDropdown={setOpenDropdown}/>
             }
-
             {
                 isTheBoardModalOpen && <AddEditBoardModal setIsTheBoardModalOpen={setIsTheBoardModalOpen} type={boardType} setBoardModalOpen={setBoardModalOpen}/>
             }

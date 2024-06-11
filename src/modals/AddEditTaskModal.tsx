@@ -99,8 +99,7 @@ const AddEditTaskModal = ({ type, setOpenAddEditTask, taskIndex, setIsTaskModalO
                 setOpenAddEditTask(false)
                 setIsTaskModalOpen(false)
             }}
-            className=
-            ' py-6 px-6 absolute overflow-y-scroll left-0 flex right-0 bottom-[-100vh] top-0 bg-[#00000080]'
+            className='fixed right-0 left-0 top-0 bottom-0 px-2 py-4 overflow-scroll z-50 justify-center items-center flex bg-[#00000080] scrollbar-hide'
         >
             <div className=' scrollbar-hide overflow-y-scroll max-h-[95vh] my-auto bg-white dark:bg-[#2b2c37] text-black dark:text-white font-bold shadow-md shadow-[#364e7e1a] max-w-md mx-auto w-full px-8 py-8 rounded-xl'>
                 <h1 className=' text-lg'>
