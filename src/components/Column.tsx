@@ -16,6 +16,7 @@ const Column = ({ colIndex }) => {
     const [color, setColor] = useState(null)
     const [isTaskModalOpen, setIsTaskModalOpen] = useState(false)
     const [openAddEditTask, setOpenAddEditTask] = useState(false)
+    const [openAddEditTask1, setOpenAddEditTask1] = useState(false)
     const [openAddColumn, setIsOpenAddColumn] = useState(false)
 
     const dispatch = useDispatch()
@@ -31,16 +32,16 @@ const Column = ({ colIndex }) => {
         console.log("foolish idiot")
     }
 
-    
+
 
     const handleOnDrop = (e) => {
-        const { pervColIndex, taskIndex} = JSON.parse(
+        const { pervColIndex, taskIndex } = JSON.parse(
             e.dataTransfer.getData("text")
         )
 
-        if (colIndex !== pervColIndex){
+        if (colIndex !== pervColIndex) {
             dispatch(
-                boardsSlice.actions.dragTask({colIndex, pervColIndex, taskIndex})
+                boardsSlice.actions.dragTask({ colIndex, pervColIndex, taskIndex })
             )
         }
     }
@@ -77,13 +78,17 @@ const Column = ({ colIndex }) => {
             {
                 col.tasks?.length === undefined && <div onClick={
                     () => {
-                        setOpenAddEditTask(state => !state)
+                        setOpenAddEditTask1(state => !state)
                     }
                 } className=' bg-transparent border-2 rounded-xl border-gray-500 flex items-center justify-center text-gray-500 border-dashed h-[85%] cursor-pointer'><h1>+ Add New Task</h1></div>
             }
 
             {
                 openAddEditTask && <AddEditTaskModal setOpenAddEditTask={setOpenAddEditTask} type='add' />
+            }
+
+            {
+                openAddEditTask1 && <AddEditTaskModal setOpenAddEditTask={setOpenAddEditTask} type='add' />
             }
 
             {

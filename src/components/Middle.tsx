@@ -32,16 +32,19 @@ const Middle = ({ boardModalOpen, setBoardModalOpen }) => {
 
   const [openAddColumn, setIsOpenAddColumn] = useState(false)
 
+
   return (
     <div>
+      <div className=' hidden md:block'>
       {
         isSideBarOpen && <Sidebar setIsSidebarOpen={setIsSideBarOpen} setBoardModalOpen={setBoardModalOpen} />
       }
+      </div>
 
 
       <div
         className={
-          windowsize[0] >= 768 && isSideBarOpen ? ' bg-[#f4f7fd]  scrollbar-hide h-screen flex dark:bg-[#20212c] overflow-x-scroll gap-6 ml-[300px] pr-36' :
+          windowsize[0] >= 768 && isSideBarOpen ? ' bg-[#f4f7fd]  scrollbar-hide h-screen flex dark:bg-[#20212c] overflow-x-scroll gap-6 sm:ml-0 md:ml-[300px] pr-36' :
             ' bg-[#f4f7fd]  scrollbar-hide h-screen flex dark:bg-[#20212c] overflow-x-scroll gap-6 pr-36'
         }>
         {/* {
