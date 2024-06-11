@@ -88,7 +88,7 @@ const Column = ({ colIndex }) => {
             }
 
             {
-                openAddEditTask1 && <AddEditTaskModal setOpenAddEditTask={setOpenAddEditTask} type='add' />
+                openAddEditTask1 && <AddEditTaskModal setOpenAddEditTask={setOpenAddEditTask1} type='add' />
             }
 
             {

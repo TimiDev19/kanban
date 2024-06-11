@@ -19,7 +19,7 @@ const AddEditTaskModal = ({ type, setOpenAddEditTask, taskIndex, setIsTaskModalO
     const col = columns.find((col, index) => index === pervColIndex)
     const [status, setStatus] = useState(columns[pervColIndex].name)
     const [newColIndex, setNewColIndex] = useState(pervColIndex)
-    const task = col ? col.tasks.find((task, index) => index === taskIndex) : []
+    const task = col ? col.tasks?.find((task, index) => index === taskIndex) : []
 
     const [subtasks, setSubtasks] = useState(
         [

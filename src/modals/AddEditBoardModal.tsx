@@ -130,8 +130,8 @@ const AddEditBoardModal = ({ setBoardModalOpen, type, setIsTheBoardModalOpen }) 
                             () => {
                                 const isValid = validate()
                                 if (isValid === true) onSubmit(type)
-                                setBoardModalOpen(false)
-                                setIsTheBoardModalOpen(false)
+                                setBoardModalOpen(false);
+                                setIsTheBoardModalOpen(false);
                             }
                         }>
                         {type === 'add' ? 'Create New Board' : 'Save Changes'}
